@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vashisht D. Brahmbhatt — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #7cffd4;
+    --accent2: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #6b6b88;
+    --card: #13131f;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* Ambient glow */
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-orb.teal { width: 600px; height: 600px; background: rgba(124,255,212,0.06); top: -100px; right: -100px; }
+  .glow-orb.red  { width: 400px; height: 400px; background: rgba(255,107,107,0.05); bottom: 200px; left: -100px; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ─────────────────────────── */
+  header {
+    padding: 6rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+
+  h1 span {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent);
+  }
+
+  .subtitle {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.35s;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.5s;
+  }
+
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .contact-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(124,255,212,0.05);
+  }
+
+  /* ── SECTIONS ─────────────────────── */
+  section {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  section.visible { opacity: 1; transform: none; }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── EDUCATION CARD ───────────────── */
+  .edu-grid { display: grid; gap: 1rem; }
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .edu-card:hover { border-color: rgba(124,255,212,0.3); }
+  .edu-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .edu-card .degree {
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .edu-card .location-date {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+  .edu-card .courses {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── EXPERIENCE ───────────────────── */
+  .exp-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .exp-item:last-child { margin-bottom: 0; }
+  .exp-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 0.4rem; }
+  .exp-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(124,255,212,0.5);
+  }
+  .exp-line {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 6px;
+  }
+  .exp-item:last-child .exp-line { display: none; }
+  .exp-content {}
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .exp-role { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+  .exp-date { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; }
+  .exp-company { font-size: 0.75rem; color: var(--accent); margin-bottom: 0.8rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding: 0.25rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 0.7rem;
+  }
+
+  /* ── PROJECTS ─────────────────────── */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(124,255,212,0.04), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(124,255,212,0.25); }
+  .project-card:hover::after { opacity: 1; }
+  .project-card h3 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .project-card p { font-size: 0.74rem; color: var(--muted); line-height: 1.7; }
+  .project-tag {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border: 1px solid rgba(255,107,107,0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.3rem;
+  }
+
+  /* ── SKILLS ───────────────────────── */
+  .skills-block { margin-bottom: 1.5rem; }
+  .skill-category {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-pill {
+    font-size: 0.72rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .skill-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(124,255,212,0.05);
+  }
+
+  /* ── ACTIVITIES ───────────────────── */
+  .activity-item { margin-bottom: 2rem; }
+  .activity-item:last-child { margin-bottom: 0; }
+  .activity-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .activity-role { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+  .activity-place { font-size: 0.7rem; color: var(--muted); }
+  .activity-tag { font-size: 0.68rem; color: var(--accent); margin-bottom: 0.5rem; }
+  .activity-desc { font-size: 0.77rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── FOOTER ───────────────────────── */
+  footer {
+    padding: 3rem 0;
+    text-align: center;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  /* ── ANIMATIONS ───────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="glow-orb teal"></div>
+<div class="glow-orb red"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <p class="header-tag">// Portfolio · Resume · 2026</p>
+    <h1>Vashisht<br><span>Brahmbhatt</span></h1>
+    <p class="subtitle">Data Science &amp; CS Engineering student building intelligent systems at the intersection of ML, product, and infrastructure.</p>
+    <div class="contact-row">
+      <a href="mailto:vashishtdb24@gmail.com" class="contact-pill">✉ vashishtdb24@gmail.com</a>
+      <a href="#" class="contact-pill">⌖ LinkedIn</a>
+      <a href="#" class="contact-pill">⌗ GitHub: VDB24</a>
+      <a href="#" class="contact-pill">◉ vdbonweb</a>
+    </div>
+  </header>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label">Education</p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <h3>Indian Institute of Technology Madras</h3>
+        <p class="degree">B.S. in Data Science &amp; Artificial Intelligence</p>
+        <p class="location-date">Chennai, India &nbsp;·&nbsp; Expected Sep 2027</p>
+        <p class="courses">Machine Learning · AI · Deep Learning · DBMS · Business Analytics · Statistics</p>
+      </div>
+      <div class="edu-card">
+        <h3>G.L.S University</h3>
+        <p class="degree">B.Tech in Computer Science &amp; Engineering</p>
+        <p class="location-date">Ahmedabad, India &nbsp;·&nbsp; Expected May 2027</p>
+        <p class="courses">DSA · System Design · ML · AI · OOP · Computer Organization</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Experience</p>
+
+    <div class="exp-item">
+      <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <span class="exp-role">Product Management &amp; Engineering Intern</span>
+          <span class="exp-date">Jun 2025 – Oct 2025</span>
+        </div>
+        <p class="exp-company">VibeLrn &nbsp;·&nbsp; New York, United States</p>
+        <ul class="exp-bullets">
+          <li>Designed a Python-based AI content automation pipeline cutting creation time from 6–7 hrs to 2 hrs per batch — saving 20+ hours/week for the content team.</li>
+          <li>Optimized backend workflows and databases managing 750+ video content pieces, improving delivery reliability and creator onboarding efficiency.</li>
+          <li>Managed database systems of 100+ education creators and tuned the platform to deliver content at scale.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-dot-col"><div class="exp-dot"></div><div class="exp-line"></div></div>
+      <div class="exp-content">
+        <div class="exp-header">
+          <span class="exp-role">Data Science Research Intern</span>
+          <span class="exp-date">May 2025 – Jun 2025</span>
+        </div>
+        <p class="exp-company">Prodigy Infotech &nbsp;·&nbsp; Pune, India</p>
+        <ul class="exp-bullets">
+          <li>Built a Python-based data preparation and modeling pipeline with statistical validation, feature engineering, and baseline ML models.</li>
+          <li>Applied multiple imputation and modeling techniques — KNN, Random Forest, Logistic Regression — for feature selection and predictive support.</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Projects</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Financial Management Platform</h3>
+        <p>Full-stack personal finance platform tracking income, expenses, budgets, and savings with real-time analytics and AI-assisted financial insights.</p>
+        <span class="project-tag">Full-Stack</span>
+        <span class="project-tag">AI</span>
+        <span class="project-tag">Analytics</span>
+      </div>
+      <div class="project-card">
+        <h3>Agency Workflow Automation</h3>
+        <p>Retrieval-augmented workflow automation using Langchain, Pinecone, and Supabase — reducing manual onboarding time by 50% for agency clients.</p>
+        <span class="project-tag">LLM</span>
+        <span class="project-tag">RAG</span>
+        <span class="project-tag">Flask</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITIES -->
+  <section id="activities">
+    <p class="section-label">Activities &amp; Leadership</p>
+
+    <div class="activity-item">
+      <div class="activity-header">
+        <span class="activity-role">Colrnx — Co-Founder</span>
+        <span class="activity-place">Ahmedabad, India</span>
+      </div>
+      <p class="activity-tag">Backed by SSIP · Govt. of Gujarat</p>
+      <p class="activity-desc">Co-founded a social collaborative platform matching project creators with contributors — helping users discover real projects, form teams, and collaborate effectively.</p>
+    </div>
+
+    <div class="activity-item">
+      <div class="activity-header">
+        <span class="activity-role">Review Paper — Author</span>
+        <span class="activity-place">Ahmedabad, India</span>
+      </div>
+      <p class="activity-tag">Published on ScienceOpen</p>
+      <p class="activity-desc">Published a review paper on data preprocessing pipelines in Machine Learning, synthesizing current techniques and best practices.</p>
+    </div>
+
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">Skills</p>
+
+    <div class="skills-block">
+      <p class="skill-category">Programming</p>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">C++</span>
+        <span class="skill-pill">C</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">HTML/CSS</span>
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">React.js</span>
+        <span class="skill-pill">Linux Scripting</span>
+      </div>
+    </div>
+
+    <div class="skills-block">
+      <p class="skill-category">Tools &amp; Platforms</p>
+      <div class="skill-pills">
+        <span class="skill-pill">Google Cloud</span>
+        <span class="skill-pill">AWS</span>
+        <span class="skill-pill">Pandas</span>
+        <span class="skill-pill">Matplotlib</span>
+        <span class="skill-pill">Jupyter</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">PyCharm</span>
+        <span class="skill-pill">Pinecone</span>
+        <span class="skill-pill">Supabase</span>
+        <span class="skill-pill">Flask</span>
+        <span class="skill-pill">LangChain</span>
+      </div>
+    </div>
+
+    <div class="skills-block">
+      <p class="skill-category">Certifications</p>
+      <div class="skill-pills">
+        <span class="skill-pill">Google Analytics</span>
+        <span class="skill-pill">Oracle Cloud Associate</span>
+        <span class="skill-pill">Google Cloud Badges</span>
+        <span class="skill-pill">Programming &amp; DS Foundations</span>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>Vashisht D. Brahmbhatt &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; Built with code</p>
+  </footer>
+
+</div>
+
+<script>
+  // Intersection observer for section reveals
+  const sections = document.querySelectorAll('section');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
